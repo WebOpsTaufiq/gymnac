@@ -39,7 +39,9 @@ const OP_LINKS = [
   { name: 'Staff', href: '/dashboard/staff', icon: PersonIcon },
 ];
 
-export default function DashboardNav({ user, profile, gym, children }: { user: any, profile: any, gym: any, children: React.ReactNode }) {
+const CrownIcon = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path></svg>
+
+export default function DashboardNav({ user, profile, gym, isOwner, children }: { user: any, profile: any, gym: any, isOwner?: boolean, children: React.ReactNode }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -125,10 +127,25 @@ export default function DashboardNav({ user, profile, gym, children }: { user: a
 
            <div className="mt-8 pt-4 border-t border-slate-100">
              <h3 className="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">AI</h3>
-             <nav>
+             <nav className="space-y-1">
                <NavItem name="AI Concierge" href="/dashboard/concierge" icon={SparkleIcon} isAi={true} />
              </nav>
            </div>
+
+           {isOwner && (
+             <div className="mt-auto pt-8">
+               <h3 className="px-3 text-[11px] font-bold text-indigo-400 uppercase tracking-wider mb-2">Platform Owner</h3>
+               <nav>
+                 <Link href="/admin" className="group flex items-center justify-between px-4 py-3 bg-slate-900 border border-slate-800 rounded-2xl text-white shadow-lg hover:shadow-indigo-500/20 hover:-translate-y-0.5 transition-all">
+                    <div className="flex items-center gap-3">
+                      <CrownIcon />
+                      <span className="text-xs font-black uppercase tracking-wider">Super Admin</span>
+                    </div>
+                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_#22c55e]"></div>
+                 </Link>
+               </nav>
+             </div>
+           )}
         </div>
 
         {/* Sidebar Footer - Settings & User Context */}

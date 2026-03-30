@@ -41,6 +41,29 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
+  // Check gym access for all /dashboard routes (Bypass for platform owner)
+  if (user && request.nextUrl.pathname.startsWith('/dashboard')) {
+    const isOwner = user.email === process.env.NEXT_PUBLIC_OWNER_EMAIL;
+    
+    if (!isOwner) {
+      try {
+        const { data: profile } = await supabase.from('profiles').select('gym_id').eq('id', user.id).single();
+        if (profile?.gym_id) {
+           const { checkGymAccess } = await import('@/lib/supabase/check-gym-access');
+           await checkGymAccess(profile.gym_id);
+        }
+      } catch (res: any) {
+        if (res instanceof Response) {
+          const body = await res.json();
+          const url = request.nextUrl.clone();
+          url.pathname = '/pending';
+          url.searchParams.set('reason', body.status || 'pending');
+          return NextResponse.redirect(url);
+        }
+      }
+    }
+  }
+
   return supabaseResponse
 }
 

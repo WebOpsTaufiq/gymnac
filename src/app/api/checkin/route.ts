@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
+import { getVerifiedGymId } from '@/lib/supabase/get-verified-gym-id';
+import { checkGymAccess } from '@/lib/supabase/check-gym-access';
+
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -8,11 +11,17 @@ const supabaseAdmin = createClient(
 
 export async function POST(req: NextRequest) {
   try {
-     const body = await req.json();
-     const { gym_id, member_id } = body;
+     let gymId: string;
+     try { gymId = await getVerifiedGymId(); }
+     catch (res) { return res as Response; }
 
-     if (!gym_id || !member_id) {
-        return NextResponse.json({ success: false, message: 'Missing gym_id or member_id' }, { status: 400 });
+     await checkGymAccess(gymId);
+
+     const body = await req.json();
+     const { member_id } = body;
+
+     if (!member_id) {
+        return NextResponse.json({ success: false, message: 'Missing member_id' }, { status: 400 });
      }
 
      const today = new Date();
@@ -37,7 +46,7 @@ export async function POST(req: NextRequest) {
      const { data: checkin, error } = await supabaseAdmin
        .from('checkins')
        .insert({
-          gym_id,
+          gym_id: gymId,
           member_id,
           checked_in_at: new Date().toISOString()
        })

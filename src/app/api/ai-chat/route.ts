@@ -1,20 +1,52 @@
-import { NextRequest } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { NextRequest, NextResponse } from 'next/server';
+import { getVerifiedGymId } from '@/lib/supabase/get-verified-gym-id';
+import { checkGymAccess } from '@/lib/supabase/check-gym-access';
+import { getAdminClient } from '@/lib/supabase/admin';
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function checkRateLimit(userId: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(userId);
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(userId, { count: 1, resetAt: now + 60_000 });
+    return true;
+  }
+  if (entry.count >= 20) return false;
+  entry.count++;
+  return true;
+}
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY!;
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:streamGenerateContent?alt=sse&key=${GEMINI_API_KEY}`;
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages, gymId } = await req.json();
+    let gymId: string;
+    let userId: string;
 
-    if (!gymId || !messages?.length) {
-      return new Response(JSON.stringify({ error: 'Missing gymId or messages' }), { status: 400 });
+    const supabaseAdmin = getAdminClient();
+    const supabase = await (await import('@/lib/supabase/server')).createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    userId = user.id;
+
+    try { gymId = await getVerifiedGymId(); }
+    catch (res) { return res as Response; }
+
+    if (!checkRateLimit(userId)) {
+       return new Response(JSON.stringify({ error: 'Too many requests' }), {
+         status: 429,
+         headers: { 'Retry-After': '60', 'Content-Type': 'application/json' }
+       });
+    }
+
+    await checkGymAccess(gymId);
+
+    const { messages } = await req.json();
+
+    if (!messages?.length) {
+      return new Response(JSON.stringify({ error: 'Missing messages' }), { status: 400 });
     }
 
     // --- Fetch comprehensive gym context using service role (bypasses RLS) ---

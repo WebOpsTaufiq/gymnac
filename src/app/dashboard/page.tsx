@@ -5,20 +5,27 @@ import Link from 'next/link';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  if (!session) {
+  if (!user) {
     return <div>Unauthorized. Please log in.</div>;
   }
 
-  const { data: profile } = await supabase.from('profiles').select('gym_id').eq('id', session.user.id).single();
+  const { data: profile } = await supabase.from('profiles').select('gym_id').eq('id', user.id).single();
   const gymId = profile?.gym_id;
 
   if (!gymId) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
-         <h2 className="text-2xl font-bold text-slate-900 mb-2">Almost there!</h2>
-         <p className="text-slate-500">Your gym setup isn't complete. Please finish onboarding to access your dashboard.</p>
+      <div className="flex flex-col items-center justify-center py-32 text-center max-w-lg mx-auto">
+         <div className="w-20 h-20 bg-indigo-50 rounded-3xl flex items-center justify-center mb-8 text-indigo-600 shadow-sm border border-indigo-100 animate-bounce-slow">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+         </div>
+         <h2 className="text-3xl font-black text-slate-900 mb-3 tracking-tight">Almost there!</h2>
+         <p className="text-slate-500 font-medium leading-relaxed mb-10 max-w-md">Your gym workspace isn't set up yet. Create your gym profile to start managing your members and tracking growth.</p>
+         <Link href="/onboarding" className="inline-flex items-center gap-3 px-8 py-4 bg-indigo-600 text-white rounded-2xl font-black text-sm hover:bg-indigo-700 transition-all shadow-xl hover:shadow-indigo-500/20 active:scale-95">
+            Complete Gym Onboarding
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+         </Link>
       </div>
     );
   }
@@ -119,7 +126,7 @@ export default async function DashboardPage() {
        </div>
 
        {/* 2. AI MORNING BRIEFING CARD */}
-       <AiBriefing gymId={gymId} />
+       <AiBriefing />
 
        {/* 3. TWO COLUMN LAYOUT */}
        <div className="grid lg:grid-cols-5 gap-6">

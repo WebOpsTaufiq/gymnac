@@ -15,7 +15,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   // 3. Fetch current user's profile and heavily join their related gym details natively
-  const { data: profile, error } = await supabase
+  const { data: profile } = await supabase
     .from('profiles')
     .select('*, gyms(*)')
     .eq('id', session.user.id)
@@ -24,9 +24,12 @@ export default async function DashboardLayout({ children }: { children: React.Re
   // Extract the gym object securely depending on how PostgREST resolves the 1:1 vs M:1 join
   const gym = profile?.gyms ? (Array.isArray(profile.gyms) ? profile.gyms[0] : profile.gyms) : null;
 
+  // Check if current user is the platform owner
+  const isOwner = session.user.email === process.env.NEXT_PUBLIC_OWNER_EMAIL;
+
   return (
     // 4. Pass the data fully down to a client components wrapper enabling reactive states
-    <DashboardNav user={session.user} profile={profile} gym={gym}>
+    <DashboardNav user={session.user} profile={profile} gym={gym} isOwner={isOwner}>
       {children}
       <Toaster />
     </DashboardNav>
