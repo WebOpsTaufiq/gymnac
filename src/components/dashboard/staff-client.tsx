@@ -23,37 +23,38 @@ export default function StaffClient({ gymId, initialStaff }: { gymId: string, in
 
   return (
     <div className="space-y-6 pb-20">
-      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-         <div>
-            <h1 className="text-2xl font-black text-slate-900 tracking-tight">Staff Directory</h1>
-            <p className="text-sm font-medium text-slate-500 mt-1">Manage your trainers, coaches, and receptionists.</p>
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-6 bg-white p-8 sm:p-10 rounded-[40px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)] relative overflow-hidden">
+         <div className="absolute top-0 right-0 w-64 h-64 bg-[#ccff00]/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+         <div className="relative z-10">
+            <h1 className="text-3xl sm:text-4xl font-black text-[#111111] tracking-tighter">Staff Directory</h1>
+            <p className="text-sm font-bold text-gray-400 mt-2">Manage your trainers, coaches, and receptionists.</p>
          </div>
-         <button onClick={() => setIsModalOpen(true)} className="px-5 py-2.5 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 shadow-sm transition-all flex items-center gap-2 justify-center shrink-0">
+         <button onClick={() => setIsModalOpen(true)} className="relative z-10 px-6 py-3.5 bg-[#111111] text-[#ccff00] text-[13px] font-black tracking-widest uppercase rounded-full hover:bg-[#ccff00] hover:text-[#111111] shadow-[0_10px_30px_rgba(0,0,0,0.1)] transition-all flex items-center gap-2 justify-center shrink-0">
            <PlusIcon /> Add Staff
          </button>
       </div>
 
       {staff.length === 0 ? (
-         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-12 text-center text-slate-400 font-medium text-sm">
+         <div className="bg-[#FAFAFA] rounded-[40px] border-2 border-dashed border-gray-100 p-16 text-center text-gray-400 font-black tracking-widest uppercase text-[11px]">
             No staff members added yet. Add your first trainer!
          </div>
       ) : (
          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {staff.map(s => (
-               <div key={s.id} className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 relative group hover:border-indigo-300 transition-colors">
-                  <button onClick={() => handleDelete(s.id)} className="absolute top-4 right-4 p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100">
+               <div key={s.id} className="bg-white rounded-[32px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)] p-8 relative group hover:border-[#ccff00] transition-colors">
+                  <button onClick={() => handleDelete(s.id)} className="absolute top-6 right-6 p-3 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors opacity-0 group-hover:opacity-100">
                      <TrashIcon />
                   </button>
-                  <div className="w-16 h-16 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-black text-xl mb-4 shadow-inner border border-slate-200">
+                  <div className="w-20 h-20 rounded-full bg-[#111111] text-[#ccff00] flex items-center justify-center font-black text-3xl mb-6 shadow-lg shadow-black/5">
                      {s.full_name?.charAt(0)}
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900">{s.full_name}</h3>
-                  <p className="text-xs font-black uppercase tracking-widest text-indigo-500 mb-3">{s.role}</p>
+                  <h3 className="text-xl font-black text-[#111111] tracking-tighter">{s.full_name}</h3>
+                  <p className="text-[11px] font-black uppercase tracking-widest text-gray-400 mb-6 mt-1">{s.role}</p>
                   
-                  <div className="space-y-1.5 pt-3 border-t border-slate-100">
-                     <p className="text-sm font-medium text-slate-600 flex items-center gap-2"><span className="text-slate-400">Expertise:</span> {s.specialization || 'General'}</p>
-                     <p className="text-sm font-medium text-slate-600 flex items-center gap-2"><span className="text-slate-400">Phone:</span> {s.phone || 'N/A'}</p>
-                     {s.email && <p className="text-sm font-medium text-slate-600 flex items-center gap-2"><span className="text-slate-400">Email:</span> {s.email}</p>}
+                  <div className="space-y-3 pt-6 border-t border-gray-100">
+                     <p className="text-[13px] font-bold text-[#111111] flex flex-col gap-1"><span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Expertise</span> {s.specialization || 'General'}</p>
+                     <p className="text-[13px] font-bold text-[#111111] flex flex-col gap-1"><span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Phone</span> {s.phone || 'N/A'}</p>
+                     {s.email && <p className="text-[13px] font-bold text-[#111111] flex flex-col gap-1"><span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Email</span> {s.email}</p>}
                   </div>
                </div>
             ))}
@@ -81,24 +82,24 @@ function StaffModal({ isOpen, onClose, gymId, supabase, onSave }: any) {
 
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
-       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden p-5">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">Add Staff Member</h2>
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-[#111111]/40 backdrop-blur-sm">
+       <div className="bg-white rounded-[40px] shadow-[0_20px_60px_rgba(0,0,0,0.05)] w-full max-w-sm overflow-hidden p-8 animate-in zoom-in-95 duration-200">
+          <h2 className="text-2xl font-black text-[#111111] tracking-tighter mb-6">Add Staff Member</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
-             <input required value={formData.full_name} onChange={e=>setFormData({...formData, full_name: e.target.value})} placeholder="Full Name" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium bg-slate-50" />
-             <select required value={formData.role} onChange={e=>setFormData({...formData, role: e.target.value})} className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium bg-slate-50">
+             <input required value={formData.full_name} onChange={e=>setFormData({...formData, full_name: e.target.value})} placeholder="Full Name" className="w-full px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-[13px] font-bold bg-[#FAFAFA] focus:bg-white transition-colors text-[#111111]" />
+             <select required value={formData.role} onChange={e=>setFormData({...formData, role: e.target.value})} className="w-full px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-[13px] font-bold bg-[#FAFAFA] focus:bg-white transition-colors text-[#111111] appearance-none cursor-pointer">
                 <option value="Trainer">Trainer</option>
                 <option value="Coach">Coach</option>
                 <option value="Manager">Manager</option>
                 <option value="Receptionist">Receptionist</option>
              </select>
-             <input value={formData.specialization} onChange={e=>setFormData({...formData, specialization: e.target.value})} placeholder="Specialization (e.g. Yoga, Crossfit)" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium bg-slate-50" />
-             <input required value={formData.phone} onChange={e=>setFormData({...formData, phone: e.target.value})} placeholder="Phone Number" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium bg-slate-50" />
-             <input type="email" value={formData.email} onChange={e=>setFormData({...formData, email: e.target.value})} placeholder="Email (Optional)" className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium bg-slate-50" />
+             <input value={formData.specialization} onChange={e=>setFormData({...formData, specialization: e.target.value})} placeholder="Specialization (e.g. Yoga, Crossfit)" className="w-full px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-[13px] font-bold bg-[#FAFAFA] focus:bg-white transition-colors text-[#111111]" />
+             <input required value={formData.phone} onChange={e=>setFormData({...formData, phone: e.target.value})} placeholder="Phone Number" className="w-full px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-[13px] font-bold bg-[#FAFAFA] focus:bg-white transition-colors text-[#111111]" />
+             <input type="email" value={formData.email} onChange={e=>setFormData({...formData, email: e.target.value})} placeholder="Email (Optional)" className="w-full px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-[13px] font-bold bg-[#FAFAFA] focus:bg-white transition-colors text-[#111111]" />
              
-             <div className="flex gap-3 pt-2">
-               <button type="button" onClick={onClose} className="flex-1 px-4 py-3 text-sm font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-colors">Cancel</button>
-               <button disabled={saving} type="submit" className="flex-1 bg-slate-900 text-white text-sm font-bold py-3 rounded-xl hover:bg-slate-800 transition-colors disabled:opacity-50">
+             <div className="flex gap-4 pt-4">
+               <button type="button" onClick={onClose} className="flex-1 px-5 py-3.5 text-[13px] font-black uppercase tracking-widest text-gray-400 hover:text-[#111111] hover:bg-[#FAFAFA] rounded-full transition-colors">Cancel</button>
+               <button disabled={saving} type="submit" className="flex-1 bg-[#111111] text-[#ccff00] text-[13px] font-black uppercase tracking-widest py-3.5 rounded-full hover:bg-[#ccff00] hover:text-[#111111] transition-colors shadow-xl shadow-black/10 disabled:opacity-50">
                   {saving ? 'Saving...' : 'Add Staff'}
                </button>
              </div>

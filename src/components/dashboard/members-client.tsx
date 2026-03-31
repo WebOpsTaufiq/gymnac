@@ -87,39 +87,39 @@ export default function MembersClient({ initialMembers, gymId }: { initialMember
     <div className="space-y-6 pb-20">
       
       {/* 1. TOOLBAR */}
-      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative z-20">
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 bg-white p-6 rounded-[32px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)] relative z-20">
         
         {/* Left: Filters & Count */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
-          <div className="flex overflow-x-auto no-scrollbar space-x-1 sm:pr-6 sm:border-r border-slate-200 pb-2 sm:pb-0">
+          <div className="flex overflow-x-auto no-scrollbar space-x-1 sm:pr-6 sm:border-r border-gray-100 pb-2 sm:pb-0">
              {['All', 'Active', 'At-Risk', 'Frozen', 'Trial', 'Expired'].map(f => (
                <button 
                   key={f} 
                   onClick={() => setFilter(f)} 
-                  className={`px-3 py-2 text-sm font-bold rounded-lg transition-colors whitespace-nowrap ${filter === f ? 'bg-slate-900 text-white shadow-sm' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}
+                  className={`px-4 py-2.5 text-sm font-bold rounded-2xl transition-colors whitespace-nowrap ${filter === f ? 'bg-[#111111] text-[#ccff00] shadow-sm' : 'text-gray-400 hover:bg-[#FAFAFA] hover:text-[#111111]'}`}
                >
                   {f}
                </button>
              ))}
           </div>
-          <span className="text-sm font-bold text-slate-400 whitespace-nowrap">{filteredMembers.length} members</span>
+          <span className="text-sm font-bold text-gray-400 whitespace-nowrap">{filteredMembers.length} members</span>
         </div>
         
         {/* Right: Search & Add */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <div className="relative flex-1 sm:w-64">
-             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"><SearchIcon /></div>
+             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><SearchIcon /></div>
              <input 
                type="text" 
                placeholder="Search names, emails..." 
                value={search} 
                onChange={e => setSearch(e.target.value)} 
-               className="w-full pl-10 pr-4 py-2 text-sm font-medium border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-slate-50 focus:bg-white transition-all shadow-sm" 
+               className="w-full pl-12 pr-4 py-3 text-sm font-bold border border-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-[#ccff00] bg-[#FAFAFA] focus:bg-white transition-all shadow-sm text-[#111111]" 
              />
           </div>
           <button 
             onClick={() => { setEditingMember(null); setIsModalOpen(true); }} 
-            className="px-4 py-2 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 shadow-[0_2px_10px_rgba(99,102,241,0.2)] hover:shadow-[0_4px_15px_rgba(99,102,241,0.3)] transition-all flex items-center gap-2 shrink-0"
+            className="px-6 py-3 bg-[#111111] text-[#ccff00] text-sm font-black tracking-widest uppercase rounded-full hover:bg-[#ccff00] hover:text-[#111111] shadow-[0_10px_30px_rgba(0,0,0,0.1)] transition-all flex items-center gap-2 shrink-0"
           >
             <PlusIcon /> Add Member
           </button>
@@ -127,23 +127,23 @@ export default function MembersClient({ initialMembers, gymId }: { initialMember
       </div>
 
       {/* 2. MEMBERS TABLE */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden min-h-[400px]">
+      <div className="bg-white rounded-[40px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)] overflow-hidden min-h-[400px]">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse whitespace-nowrap">
             <thead>
-              <tr className="bg-slate-50/80 border-b border-slate-200 text-[11px] font-black text-slate-400 uppercase tracking-widest">
-                <th className="px-6 py-4">Member Name</th>
-                <th className="px-6 py-4">Plan Name</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4">Renewal Date</th>
-                <th className="px-6 py-4">Monthly Value</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+              <tr className="bg-[#FAFAFA] border-b border-gray-100 text-[11px] font-black text-gray-400 uppercase tracking-widest">
+                <th className="px-8 py-5">Member Name</th>
+                <th className="px-8 py-5">Plan Name</th>
+                <th className="px-8 py-5">Status</th>
+                <th className="px-8 py-5">Renewal Date</th>
+                <th className="px-8 py-5">Monthly Value</th>
+                <th className="px-8 py-5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-gray-50">
               {filteredMembers.length === 0 ? (
                 <tr>
-                   <td colSpan={6} className="px-6 py-12 text-center text-slate-500 font-medium text-sm">
+                   <td colSpan={6} className="px-8 py-16 text-center text-gray-400 font-bold text-sm bg-[#FAFAFA]">
                       {search || filter !== 'All' ? "No members match your filters." : "You have no members yet. Add your first member!"}
                    </td>
                 </tr>
@@ -151,54 +151,53 @@ export default function MembersClient({ initialMembers, gymId }: { initialMember
                 filteredMembers.map(m => (
                   <tr 
                     key={m.id} 
-                    className="hover:bg-slate-50/80 transition-colors group cursor-pointer" 
+                    className="hover:bg-[#FAFAFA] transition-colors group cursor-pointer" 
                     onClick={() => { setSelectedMember(m); setIsDrawerOpen(true); }}
                   >
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-100 to-indigo-50 text-indigo-700 flex items-center justify-center font-bold text-sm shrink-0 border border-indigo-100 shadow-sm">
+                    <td className="px-8 py-5">
+                      <div className="flex items-center gap-5">
+                        <div className="w-12 h-12 rounded-full bg-[#ccff00] text-[#111111] flex items-center justify-center font-black text-lg shrink-0 border border-[#ccff00]/50 shadow-sm">
                           {m.full_name?.charAt(0).toUpperCase() || '?'}
                         </div>
                         <div>
-                          <p className="text-sm font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{m.full_name}</p>
-                          <p className="text-xs font-semibold text-slate-400 mt-0.5">{m.email || 'No email'}</p>
+                          <p className="text-sm font-black text-[#111111] group-hover:text-[#ccff00] transition-colors">{m.full_name}</p>
+                          <p className="text-xs font-bold text-gray-400 mt-0.5">{m.email || 'No email'}</p>
                         </div>
                       </div>
                     </td>
                     
-                    <td className="px-6 py-4">
-                       <span className="inline-flex px-2.5 py-1 bg-slate-100 text-slate-600 border border-slate-200 rounded-md text-xs font-bold tracking-wide">
+                    <td className="px-8 py-5">
+                       <span className="inline-flex px-3 py-1 bg-white text-[#111111] border border-gray-200 rounded-lg text-xs font-black tracking-wide">
                           {m.plan_name || 'Standard'}
                        </span>
                     </td>
                     
-                    <td className="px-6 py-4">
+                    <td className="px-8 py-5">
                        <StatusBadge status={m.status || 'active'} />
                     </td>
 
-                    <td className="px-6 py-4">
+                    <td className="px-8 py-5">
                        <RenewalText dateStr={m.renewal_date} />
                     </td>
 
-                    <td className="px-6 py-4 text-sm font-bold text-slate-700">
+                    <td className="px-8 py-5 text-[15px] font-black text-[#111111]">
                        ₹{m.plan_price || 0}
                     </td>
 
-                    <td className="px-6 py-4 text-right relative" onClick={(e) => e.stopPropagation()}>
+                    <td className="px-8 py-5 text-right relative" onClick={(e) => e.stopPropagation()}>
                        <button 
                          onClick={(e) => { e.stopPropagation(); setActiveMenuId(activeMenuId === m.id ? null : m.id); }} 
-                         className="p-1.5 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-white shadow-sm border border-transparent hover:border-slate-200 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
+                         className="p-2 text-gray-400 hover:text-[#111111] rounded-xl hover:bg-white shadow-sm border border-transparent hover:border-gray-200 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100"
                        >
                          <MoreVertical />
                        </button>
                        
                        {/* Dropdown Menu */}
                        {activeMenuId === m.id && (
-                         <div className="absolute right-12 top-10 w-44 bg-white border border-slate-200 shadow-xl rounded-xl z-50 py-1 overflow-hidden" onClick={(e) => e.stopPropagation()}>
-                           <button onClick={(e) => handleEdit(m, e)} className="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 font-bold transition-colors">Edit Member</button>
-                           <button onClick={(e) => toggleAtRisk(m.id, m.status || 'active', e)} className="w-full text-left px-4 py-2.5 text-sm text-amber-600 hover:bg-amber-50 font-bold transition-colors">Mark {m.status === 'at-risk' ? 'Active' : 'At-Risk'}</button>
-                           <div className="h-px bg-slate-100 my-1"></div>
-                           <button onClick={(e) => handleDelete(m.id, e)} className="w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 font-bold transition-colors">Delete Permanently</button>
+                         <div className="absolute right-14 top-12 w-48 bg-white border border-gray-100 shadow-[0_20px_40px_rgba(0,0,0,0.1)] rounded-[20px] z-50 py-2 overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                           <button onClick={(e) => handleEdit(m, e)} className="w-full text-left px-5 py-3 text-[13px] text-[#111111] hover:bg-[#FAFAFA] font-black transition-colors">Edit Member</button>
+                           <button onClick={(e) => toggleAtRisk(m.id, m.status || 'active', e)} className="w-full text-left px-5 py-3 text-[13px] text-[#111111] hover:bg-[#FAFAFA] font-black transition-colors border-y border-gray-50">Mark {m.status === 'at-risk' ? 'Active' : 'At-Risk'}</button>
+                           <button onClick={(e) => handleDelete(m.id, e)} className="w-full text-left px-5 py-3 text-[13px] text-red-500 hover:bg-red-50 font-black transition-colors">Delete Permanently</button>
                          </div>
                        )}
                     </td>
@@ -236,24 +235,24 @@ export default function MembersClient({ initialMembers, gymId }: { initialMember
 
 function StatusBadge({ status }: { status: string }) {
   const map: Record<string, string> = {
-    active: 'bg-green-100 text-green-700 border-green-200',
-    'at-risk': 'bg-amber-100 text-amber-700 border-amber-200',
-    frozen: 'bg-blue-100 text-blue-700 border-blue-200',
-    trial: 'bg-purple-100 text-purple-700 border-purple-200',
-    expired: 'bg-red-100 text-red-700 border-red-200'
+    active: 'bg-[#ccff00] text-[#111111] border-[#ccff00]',
+    'at-risk': 'bg-red-500 text-white border-red-500',
+    frozen: 'bg-blue-500 text-white border-blue-500',
+    trial: 'bg-purple-500 text-white border-purple-500',
+    expired: 'bg-[#111111] text-gray-400 border-[#111111]'
   };
-  const c = map[status.toLowerCase()] || 'bg-slate-100 text-slate-600 border-slate-200';
-  return <span className={`px-2.5 py-1 text-[11px] font-black uppercase tracking-widest border rounded-full ${c}`}>{status}</span>;
+  const c = map[status.toLowerCase()] || 'bg-gray-100 text-[#111111] border-gray-200';
+  return <span className={`px-3 py-1.5 text-[10px] font-black uppercase tracking-widest border rounded-[10px] ${c}`}>{status}</span>;
 }
 
 function RenewalText({ dateStr }: { dateStr: string }) {
-  if (!dateStr) return <span className="text-slate-400 text-xs font-semibold">Not set</span>;
+  if (!dateStr) return <span className="text-gray-400 text-xs font-bold">Not set</span>;
   const d = new Date(dateStr);
   const diffDays = Math.ceil((d.getTime() - new Date().getTime()) / 86400000);
   
-  if (diffDays < 0) return <span className="text-red-600 text-xs font-bold bg-red-50 px-2 py-1 rounded-md">Expired</span>;
-  if (diffDays <= 7) return <span className="text-amber-600 text-xs font-bold bg-amber-50 px-2 py-1 rounded-md animate-pulse">In {diffDays} days</span>;
-  return <span className="text-slate-600 text-sm font-medium">{d.toLocaleDateString([], {month:'short', day:'numeric'})}</span>;
+  if (diffDays < 0) return <span className="text-white text-[11px] font-black uppercase tracking-widest bg-red-500 px-3 py-1.5 rounded-[10px]">Expired</span>;
+  if (diffDays <= 7) return <span className="text-[#111111] text-[11px] font-black uppercase tracking-widest bg-[#ccff00] px-3 py-1.5 rounded-[10px] animate-pulse">In {diffDays} days</span>;
+  return <span className="text-[#111111] text-sm font-black">{d.toLocaleDateString([], {month:'short', day:'numeric'})}</span>;
 }
 
 function MemberModal({ isOpen, onClose, member, gymId, onSave, supabase }: any) {
@@ -311,31 +310,31 @@ function MemberModal({ isOpen, onClose, member, gymId, onSave, supabase }: any) 
 
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm sm:p-0">
-       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
-          <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-             <h2 className="text-xl font-bold text-slate-900">{member ? 'Edit Member' : 'Add New Member'}</h2>
-             <button onClick={onClose} className="text-slate-400 hover:text-slate-900 transition-colors"><XIcon /></button>
+    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-[#111111]/40 backdrop-blur-sm sm:p-0">
+       <div className="bg-white rounded-[40px] shadow-[0_20px_60px_rgba(0,0,0,0.05)] w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="p-8 border-b border-gray-100 flex justify-between items-center bg-[#FAFAFA]">
+             <h2 className="text-2xl font-black text-[#111111] tracking-tighter">{member ? 'Edit Member' : 'Add New Member'}</h2>
+             <button onClick={onClose} className="text-gray-400 hover:text-[#111111] transition-colors"><XIcon /></button>
           </div>
-          <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-5">
+          <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-8 space-y-6">
              <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Member Details</label>
+                <label className="block text-[11px] font-black text-gray-400 uppercase tracking-widest mb-3">Member Details</label>
                 <div className="space-y-4">
-                   <input required value={formData.full_name} onChange={e=>setFormData({...formData, full_name: e.target.value})} placeholder="Full Name *" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium transition-shadow shadow-sm bg-slate-50 focus:bg-white" />
-                   <input type="email" value={formData.email} onChange={e=>setFormData({...formData, email: e.target.value})} placeholder="Email Address" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium transition-shadow shadow-sm bg-slate-50 focus:bg-white" />
-                   <input value={formData.phone} onChange={e=>setFormData({...formData, phone: e.target.value})} placeholder="Phone Number (e.g. 919876543210)" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium transition-shadow shadow-sm bg-slate-50 focus:bg-white" />
+                   <input required value={formData.full_name} onChange={e=>setFormData({...formData, full_name: e.target.value})} placeholder="Full Name *" className="w-full px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-sm font-bold transition-all shadow-sm bg-[#FAFAFA] focus:bg-white text-[#111111] placeholder:text-gray-300" />
+                   <input type="email" value={formData.email} onChange={e=>setFormData({...formData, email: e.target.value})} placeholder="Email Address" className="w-full px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-sm font-bold transition-all shadow-sm bg-[#FAFAFA] focus:bg-white text-[#111111] placeholder:text-gray-300" />
+                   <input value={formData.phone} onChange={e=>setFormData({...formData, phone: e.target.value})} placeholder="Phone Number (e.g. 919876543210)" className="w-full px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-sm font-bold transition-all shadow-sm bg-[#FAFAFA] focus:bg-white text-[#111111] placeholder:text-gray-300" />
                 </div>
              </div>
-             <div className="pt-2 border-t border-slate-100">
-                <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 mt-2">Subscription Details</label>
+             <div className="pt-4 border-t border-gray-50">
+                <label className="block text-[11px] font-black text-gray-400 uppercase tracking-widest mb-3 mt-2">Subscription Details</label>
                 <div className="space-y-4">
-                   <input required value={formData.plan_name} onChange={e=>setFormData({...formData, plan_name: e.target.value})} placeholder="Plan Name (e.g. Standard Yearly) *" className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium transition-shadow shadow-sm bg-slate-50 focus:bg-white" />
+                   <input required value={formData.plan_name} onChange={e=>setFormData({...formData, plan_name: e.target.value})} placeholder="Plan Name (e.g. Standard Yearly) *" className="w-full px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-sm font-bold transition-all shadow-sm bg-[#FAFAFA] focus:bg-white text-[#111111] placeholder:text-gray-300" />
                    <div className="grid grid-cols-2 gap-4">
                       <div className="relative">
-                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₹</span>
-                        <input required type="number" value={formData.plan_price} onChange={e=>setFormData({...formData, plan_price: e.target.value})} placeholder="Price *" className="w-full pl-8 pr-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium transition-shadow shadow-sm bg-slate-50 focus:bg-white" />
+                        <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 font-black">₹</span>
+                        <input required type="number" value={formData.plan_price} onChange={e=>setFormData({...formData, plan_price: e.target.value})} placeholder="Price *" className="w-full pl-10 pr-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-sm font-bold transition-all shadow-sm bg-[#FAFAFA] focus:bg-white text-[#111111] placeholder:text-gray-300" />
                       </div>
-                      <select value={formData.status} onChange={e=>setFormData({...formData, status: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium shadow-sm bg-white cursor-pointer">
+                      <select value={formData.status} onChange={e=>setFormData({...formData, status: e.target.value})} className="w-full px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-sm font-bold shadow-sm bg-white cursor-pointer text-[#111111] appearance-none">
                          <option value="active">Active</option>
                          <option value="at-risk">At-Risk</option>
                          <option value="frozen">Frozen</option>
@@ -343,11 +342,11 @@ function MemberModal({ isOpen, onClose, member, gymId, onSave, supabase }: any) 
                          <option value="expired">Expired</option>
                       </select>
                    </div>
-                   <input required type="date" value={formData.renewal_date} onChange={e=>setFormData({...formData, renewal_date: e.target.value})} className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium shadow-sm bg-white" />
+                   <input required type="date" value={formData.renewal_date} onChange={e=>setFormData({...formData, renewal_date: e.target.value})} className="w-full px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-sm font-bold shadow-sm bg-white text-[#111111]" />
                 </div>
              </div>
              
-             <button disabled={saving} type="submit" className="w-full bg-slate-900 text-white font-bold py-3 rounded-xl hover:bg-slate-800 transition-colors shadow-sm disabled:opacity-50 flex items-center justify-center mt-6">
+             <button disabled={saving} type="submit" className="w-full bg-[#111111] text-[#ccff00] font-black py-4 rounded-full hover:bg-[#ccff00] hover:text-[#111111] transition-colors shadow-xl shadow-black/10 disabled:opacity-50 flex items-center justify-center mt-8">
                 {saving ? 'Saving...' : 'Save Member Data'}
              </button>
           </form>
@@ -395,59 +394,59 @@ function MemberDrawer({ isOpen, onClose, member, supabase, onUpdate }: any) {
   if (!isOpen) return null;
   return (
     <>
-      <div className="fixed inset-0 z-40 bg-slate-900/20 backdrop-blur-[1px] transition-opacity" onClick={onClose} />
-      <div className="fixed inset-y-0 right-0 z-50 w-full md:w-[450px] bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+      <div className="fixed inset-0 z-40 bg-[#111111]/20 backdrop-blur-[1px] transition-opacity" onClick={onClose} />
+      <div className="fixed inset-y-0 right-0 z-50 w-full md:w-[480px] bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300 rounded-l-[40px]">
          
          {/* Drawer Header */}
-         <div className="p-6 border-b border-slate-100 flex items-start justify-between bg-slate-50/50">
-            <div className="flex gap-4">
-               <div className="w-14 h-14 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-600 text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-md">
+         <div className="p-8 border-b border-gray-100 flex items-start justify-between bg-[#FAFAFA] rounded-tl-[40px]">
+            <div className="flex gap-5">
+               <div className="w-16 h-16 rounded-full bg-[#ccff00] text-[#111111] flex items-center justify-center font-black text-2xl shrink-0 shadow-lg border border-[#ccff00]/50">
                   {member?.full_name?.charAt(0).toUpperCase()}
                </div>
                <div className="flex flex-col justify-center">
-                  <div className="flex items-center gap-2">
-                     <h2 className="text-xl font-bold text-slate-900">{member?.full_name}</h2>
+                  <div className="flex items-center gap-3">
+                     <h2 className="text-2xl font-black text-[#111111] tracking-tighter">{member?.full_name}</h2>
                      <StatusBadge status={member?.status} />
                   </div>
-                  <p className="text-sm font-medium text-slate-500 mt-1">{member?.phone || 'No phone'} • {member?.email || 'No email'}</p>
+                  <p className="text-sm font-bold text-gray-400 mt-1">{member?.phone || 'No phone'} • {member?.email || 'No email'}</p>
                </div>
             </div>
-            <button onClick={onClose} className="p-2 -mr-2 text-slate-400 hover:text-slate-900 bg-white rounded-full hover:bg-slate-100 transition-colors shadow-sm border border-slate-200"><XIcon /></button>
+            <button onClick={onClose} className="p-3 -mr-2 text-gray-400 hover:text-[#111111] bg-white rounded-full hover:bg-gray-100 transition-colors shadow-sm border border-gray-200"><XIcon /></button>
          </div>
 
          {/* Drawer Tabs */}
-         <div className="flex border-b border-slate-200 px-6 space-x-6 mt-2">
+         <div className="flex border-b border-gray-100 px-8 space-x-8 mt-4 bg-white">
             {['Overview', 'Check-ins', 'Payments', 'Notes'].map(t => (
                <button 
                  key={t} onClick={() => setTab(t)} 
-                 className={`pb-3 text-sm font-bold transition-colors relative ${tab === t ? 'text-indigo-600' : 'text-slate-400 hover:text-slate-900'}`}
+                 className={`pb-4 text-[13px] font-black tracking-widest uppercase transition-colors relative ${tab === t ? 'text-[#111111]' : 'text-gray-400 hover:text-[#111111]'}`}
                >
                  {t}
-                 {tab === t && <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600 rounded-t-full"></div>}
+                 {tab === t && <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#ccff00] rounded-t-full"></div>}
                </button>
             ))}
          </div>
 
          {/* Drawer Body */}
-         <div className="flex-1 overflow-y-auto p-6 bg-slate-50">
+         <div className="flex-1 overflow-y-auto p-8 bg-[#FAFAFA]">
             {tab === 'Overview' && (
                <div className="space-y-6">
-                  <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
-                     <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Subscription Plan</h3>
+                  <div className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)]">
+                     <h3 className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-4">Subscription Plan</h3>
                      <div className="flex justify-between items-end mb-2">
-                        <p className="text-lg font-bold text-slate-900">{member?.plan_name || 'Standard'}</p>
-                        <p className="text-xl font-black text-indigo-600">₹{member?.plan_price}</p>
+                        <p className="text-xl font-black text-[#111111]">{member?.plan_name || 'Standard'}</p>
+                        <p className="text-2xl font-black text-[#ccff00] bg-[#111111] px-3 py-1 rounded-xl">₹{member?.plan_price}</p>
                      </div>
-                     <p className="text-sm font-medium text-slate-500">Renews systematically</p>
+                     <p className="text-sm font-bold text-gray-400">Renews systematically</p>
                   </div>
 
-                  <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm grid grid-cols-2 gap-6">
+                  <div className="bg-white p-6 rounded-[32px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)] grid grid-cols-2 gap-6">
                      <div>
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Joined Date</p>
-                        <p className="font-bold text-slate-900">{new Date(member?.joined_at || member?.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                        <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">Joined Date</p>
+                        <p className="font-black text-[#111111]">{new Date(member?.joined_at || member?.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                      </div>
                      <div>
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Renewal Date</p>
+                        <p className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2">Renewal Date</p>
                         <RenewalText dateStr={member?.renewal_date} />
                      </div>
                   </div>
@@ -455,14 +454,14 @@ function MemberDrawer({ isOpen, onClose, member, supabase, onUpdate }: any) {
             )}
 
             {tab === 'Check-ins' && (
-               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4">
-                 {loading ? <p className="text-sm text-slate-400 animate-pulse">Loading...</p> : checkins.length === 0 ? <p className="text-sm text-slate-500 font-medium p-2 text-center">No check-ins recorded yet.</p> : (
-                    <div className="space-y-3">
+               <div className="bg-white rounded-[32px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)] p-6">
+                 {loading ? <p className="text-sm font-bold text-gray-400 animate-pulse">Loading...</p> : checkins.length === 0 ? <p className="text-sm text-gray-500 font-bold p-2 text-center">No check-ins recorded yet.</p> : (
+                    <div className="space-y-4">
                        {checkins.map(c => (
-                          <div key={c.id} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100">
-                             <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                             <p className="text-sm font-bold text-slate-700 flex-1">{new Date(c.checked_in_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
-                             <p className="text-xs font-bold text-slate-400">{new Date(c.checked_in_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
+                          <div key={c.id} className="flex items-center gap-4 p-4 bg-[#FAFAFA] rounded-2xl border border-gray-100">
+                             <div className="w-3 h-3 rounded-full bg-[#ccff00] shadow-[0_0_10px_#ccff00]"></div>
+                             <p className="text-sm font-black text-[#111111] flex-1">{new Date(c.checked_in_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                             <p className="text-xs font-bold text-gray-400">{new Date(c.checked_in_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p>
                           </div>
                        ))}
                     </div>
@@ -471,16 +470,16 @@ function MemberDrawer({ isOpen, onClose, member, supabase, onUpdate }: any) {
             )}
 
             {tab === 'Payments' && (
-               <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-                 {loading ? <p className="text-sm text-slate-400 animate-pulse p-4">Loading...</p> : payments.length === 0 ? <p className="text-sm text-slate-500 font-medium p-6 text-center">No payments recorded.</p> : (
-                    <div className="divide-y divide-slate-100">
+               <div className="bg-white rounded-[32px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)] overflow-hidden">
+                 {loading ? <p className="text-sm font-bold text-gray-400 animate-pulse p-6">Loading...</p> : payments.length === 0 ? <p className="text-sm text-gray-500 font-bold p-8 text-center">No payments recorded.</p> : (
+                    <div className="divide-y divide-gray-50">
                        {payments.map(p => (
-                          <div key={p.id} className="p-4 flex items-center justify-between hover:bg-slate-50">
+                          <div key={p.id} className="p-6 flex items-center justify-between hover:bg-[#FAFAFA] transition-colors">
                              <div>
-                                <p className="font-bold text-slate-900 tracking-tight">₹{p.amount}</p>
-                                <p className="text-xs font-semibold text-slate-400 mt-0.5">{new Date(p.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                                <p className="text-lg font-black text-[#111111] tracking-tighter">₹{p.amount}</p>
+                                <p className="text-xs font-bold text-gray-400 mt-1">{new Date(p.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
                              </div>
-                             <span className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-widest rounded-full ${p.status === 'paid' ? 'bg-green-100 text-green-700' : p.status === 'failed' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'}`}>
+                             <span className={`px-4 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-full shadow-sm ${p.status === 'paid' ? 'bg-[#111111] text-[#ccff00]' : p.status === 'failed' ? 'bg-red-500 text-white' : 'bg-gray-200 text-[#111111]'}`}>
                                 {p.status}
                              </span>
                           </div>
@@ -497,20 +496,20 @@ function MemberDrawer({ isOpen, onClose, member, supabase, onUpdate }: any) {
                      onChange={e => setNotes(e.target.value)}
                      onBlur={handleNotesBlur}
                      placeholder="Add private notes about this member (injuries, goals, warnings)... (Auto-saves on click away)"
-                     className="flex-1 w-full bg-white border border-slate-200 rounded-2xl p-5 text-sm font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-inner resize-none min-h-[300px]"
+                     className="flex-1 w-full bg-white border border-gray-100 rounded-[32px] p-8 text-sm font-bold text-[#111111] focus:outline-none focus:ring-2 focus:ring-[#ccff00] shadow-[0_10px_40px_rgba(0,0,0,0.02)] resize-none min-h-[350px] placeholder:text-gray-300"
                   ></textarea>
-                  <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-4 text-center">Cloud Sync active on blur</p>
+                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mt-6 text-center">Cloud Sync active on blur</p>
                </div>
             )}
          </div>
 
          {/* Drawer Footer */}
-         <div className="p-4 border-t border-slate-200 bg-white shrink-0">
+         <div className="p-6 border-t border-gray-100 bg-white shrink-0 rounded-bl-[40px]">
             <a 
                href={`https://wa.me/${getPhoneForWhatsApp(member?.phone || '')}`} 
                target="_blank" 
                rel="noreferrer" 
-               className={`w-full flex items-center justify-center gap-2 py-3.5 rounded-xl font-bold transition-all shadow-md active:scale-95 ${member?.phone ? 'bg-[#25D366] hover:bg-[#20bd5a] text-white shadow-[#25D366]/20 hover:shadow-[#20bd5a]/40' : 'bg-slate-100 text-slate-400 pointer-events-none'}`}
+               className={`w-full flex items-center justify-center gap-3 py-4 rounded-full font-black text-[15px] transition-all duration-300 active:scale-95 ${member?.phone ? 'bg-[#25D366] hover:bg-[#1DA851] text-[#111111] shadow-[0_10px_30px_rgba(37,211,102,0.3)] hover:shadow-[#1DA851]/40' : 'bg-[#FAFAFA] text-gray-300 pointer-events-none border border-gray-100'}`}
             >
                <WhatsAppIcon /> {member?.phone ? 'Message on WhatsApp' : 'No Phone Number Added'}
             </a>

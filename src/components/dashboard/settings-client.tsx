@@ -51,61 +51,64 @@ export default function SettingsClient({ gym, email }: { gym: any, email: string
 
   return (
     <div className="max-w-3xl space-y-8 pb-20">
-      <div>
-         <h1 className="text-2xl font-black text-slate-900 tracking-tight">System Settings</h1>
-         <p className="text-sm font-medium text-slate-500 mt-1">Manage your workspace and security preferences.</p>
+      <div className="bg-white p-8 sm:p-10 rounded-[40px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)] relative overflow-hidden mb-12">
+         <div className="absolute top-0 right-0 w-64 h-64 bg-[#ccff00]/10 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+         <div className="relative z-10">
+            <h1 className="text-3xl sm:text-4xl font-black text-[#111111] tracking-tighter">System Settings</h1>
+            <p className="text-sm font-bold text-gray-400 mt-2">Manage your workspace and security preferences.</p>
+         </div>
       </div>
 
       {/* GYM PROFILE */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-         <div className="p-5 border-b border-slate-100 bg-slate-50/50">
-            <h2 className="text-lg font-bold text-slate-900">Gym Profile</h2>
+      <div className="bg-white rounded-[40px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)] overflow-hidden">
+         <div className="p-8 border-b border-gray-100 bg-[#FAFAFA]">
+            <h2 className="text-2xl font-black text-[#111111] tracking-tighter">Gym Profile</h2>
          </div>
-         <form onSubmit={handleUpdateGym} className="p-6 space-y-5">
+         <form onSubmit={handleUpdateGym} className="p-8 space-y-6">
             <div>
-               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Workspace Name</label>
-               <input required value={gymData.name} onChange={e=>setGymData({...gymData, name: e.target.value})} className="w-full max-w-md px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-bold text-slate-900 bg-slate-50" />
+               <label className="block text-[11px] font-black tracking-widest uppercase text-gray-400 mb-3">Workspace Name</label>
+               <input required value={gymData.name} onChange={e=>setGymData({...gymData, name: e.target.value})} className="w-full max-w-md px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-[13px] font-bold text-[#111111] bg-[#FAFAFA] focus:bg-white transition-colors" />
             </div>
             <div>
-               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">City / Location</label>
-               <input value={gymData.city} onChange={e=>setGymData({...gymData, city: e.target.value})} className="w-full max-w-md px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-bold text-slate-900 bg-slate-50" />
+               <label className="block text-[11px] font-black tracking-widest uppercase text-gray-400 mb-3">City / Location</label>
+               <input value={gymData.city} onChange={e=>setGymData({...gymData, city: e.target.value})} className="w-full max-w-md px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-[13px] font-bold text-[#111111] bg-[#FAFAFA] focus:bg-white transition-colors" />
             </div>
-            <button disabled={savingGym} type="submit" className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-xl transition-colors disabled:opacity-50">
-               {savingGym ? 'Saving...' : 'Save Profile Changes'}
+            <button disabled={savingGym} type="submit" className="px-8 py-4 bg-[#111111] hover:bg-[#ccff00] hover:text-[#111111] text-[#ccff00] font-black text-[13px] tracking-widest uppercase rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.1)] transition-all disabled:opacity-50 mt-4 block">
+               {savingGym ? 'Saving...' : 'Save Profile'}
             </button>
          </form>
       </div>
 
       {/* ACCOUNT SECURITY */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-         <div className="p-5 border-b border-slate-100 bg-slate-50/50">
-            <h2 className="text-lg font-bold text-slate-900">Account Security</h2>
+      <div className="bg-white rounded-[40px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)] overflow-hidden mt-8">
+         <div className="p-8 border-b border-gray-100 bg-[#FAFAFA]">
+            <h2 className="text-2xl font-black text-[#111111] tracking-tighter">Account Security</h2>
          </div>
-         <div className="p-6 border-b border-slate-100">
-            <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Primary Email</label>
-            <div className="w-full max-w-md px-4 py-3 rounded-xl border border-slate-200 bg-slate-100 text-sm font-bold text-slate-600 italic cursor-not-allowed">
+         <div className="p-8 border-b border-gray-100">
+            <label className="block text-[11px] font-black tracking-widest uppercase text-gray-400 mb-3">Primary Email</label>
+            <div className="w-full max-w-md px-5 py-3.5 rounded-[20px] border border-gray-100 bg-[#FAFAFA] text-[13px] font-bold text-gray-500 italic cursor-not-allowed">
                {email}
             </div>
          </div>
-         <form onSubmit={handleUpdatePassword} className="p-6 space-y-5">
+         <form onSubmit={handleUpdatePassword} className="p-8 space-y-6">
             <div>
-               <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Update Password</label>
-               <input type="password" required value={password} onChange={e=>setPassword(e.target.value)} placeholder="Enter new password" className="w-full max-w-md px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none text-sm font-medium bg-slate-50" />
+               <label className="block text-[11px] font-black tracking-widest uppercase text-gray-400 mb-3">Update Password</label>
+               <input type="password" required value={password} onChange={e=>setPassword(e.target.value)} placeholder="Enter new password" className="w-full max-w-md px-5 py-3.5 rounded-[20px] border border-gray-100 focus:ring-2 focus:ring-[#ccff00] outline-none text-[13px] font-bold bg-[#FAFAFA] focus:bg-white transition-colors text-[#111111] placeholder:text-gray-300" />
             </div>
-            <button disabled={savingPwd || !password} type="submit" className="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm rounded-xl transition-colors disabled:opacity-50">
+            <button disabled={savingPwd || !password} type="submit" className="px-8 py-4 bg-[#111111] hover:bg-[#ccff00] hover:text-[#111111] text-[#ccff00] font-black text-[13px] tracking-widest uppercase rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.1)] transition-all disabled:opacity-50 mt-4 block">
                {savingPwd ? 'Updating...' : 'Change Password'}
             </button>
          </form>
       </div>
 
       {/* DANGER ZONE */}
-      <div className="bg-white rounded-2xl border border-red-200 shadow-sm overflow-hidden mt-10">
-         <div className="p-5 border-b border-red-100 bg-red-50/50">
-            <h2 className="text-lg font-bold text-red-600">Danger Zone</h2>
+      <div className="bg-white rounded-[40px] border border-red-500/20 shadow-[0_10px_40px_rgba(239,68,68,0.05)] overflow-hidden mt-12">
+         <div className="p-8 border-b border-red-500/10 bg-red-50/50">
+            <h2 className="text-2xl font-black text-red-500 tracking-tighter">Danger Zone</h2>
          </div>
-         <div className="p-6">
-            <p className="text-sm font-medium text-slate-600 mb-4">Permanently delete your workspace, members, check-ins, and financial data. This cannot be undone.</p>
-            <button onClick={handleDeleteAccount} disabled={deleting} className="px-6 py-2.5 bg-red-50 hover:bg-red-100 border border-red-200 text-red-600 font-bold text-sm rounded-xl transition-colors mr-auto">
+         <div className="p-8">
+            <p className="text-[13px] font-bold text-gray-500 mb-6 max-w-lg leading-relaxed">Permanently delete your workspace, members, check-ins, and financial data. This cannot be undone.</p>
+            <button onClick={handleDeleteAccount} disabled={deleting} className="px-8 py-4 bg-red-50 hover:bg-red-500 border border-red-100 hover:border-red-500 text-red-600 hover:text-white font-black text-[13px] tracking-widest uppercase rounded-full transition-all disabled:opacity-50 inline-block shadow-sm">
                Delete Workspace
             </button>
          </div>

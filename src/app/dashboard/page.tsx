@@ -17,14 +17,16 @@ export default async function DashboardPage() {
   if (!gymId) {
     return (
       <div className="flex flex-col items-center justify-center py-32 text-center max-w-lg mx-auto">
-         <div className="w-20 h-20 bg-indigo-50 rounded-3xl flex items-center justify-center mb-8 text-indigo-600 shadow-sm border border-indigo-100 animate-bounce-slow">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+         <div className="w-24 h-24 bg-[#ccff00] rounded-[32px] flex items-center justify-center mb-10 text-[#111111] shadow-lg animate-bounce-slow">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
          </div>
-         <h2 className="text-3xl font-black text-slate-900 mb-3 tracking-tight">Almost there!</h2>
-         <p className="text-slate-500 font-medium leading-relaxed mb-10 max-w-md">Your gym workspace isn't set up yet. Create your gym profile to start managing your members and tracking growth.</p>
-         <Link href="/onboarding" className="inline-flex items-center gap-3 px-8 py-4 bg-indigo-600 text-white rounded-2xl font-black text-sm hover:bg-indigo-700 transition-all shadow-xl hover:shadow-indigo-500/20 active:scale-95">
-            Complete Gym Onboarding
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+         <h2 className="text-4xl font-black text-[#111111] mb-4 tracking-tighter">Initialize Workspace</h2>
+         <p className="text-gray-500 font-bold leading-relaxed mb-12 max-w-md">Your facility data isn't mapped yet. Run the activation sequence to initiate your management OS.</p>
+         <Link href="/onboarding" className="group flex items-center justify-between rounded-full bg-[#111111] p-2 pr-6 text-white text-lg font-bold transition-all hover:bg-[#ccff00] hover:text-[#111111]">
+            <div className="w-12 h-12 bg-white/10 group-hover:bg-[#111111] rounded-full flex items-center justify-center transition-colors mr-4">
+               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-white group-hover:text-[#ccff00]" strokeWidth="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </div>
+            <span>Complete Setup</span>
          </Link>
       </div>
     );
@@ -130,36 +132,36 @@ export default async function DashboardPage() {
 
        {/* 3. TWO COLUMN LAYOUT */}
        <div className="grid lg:grid-cols-5 gap-6">
-          <div className="lg:col-span-3 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col min-h-[400px]">
-             <h2 className="text-lg font-bold text-slate-900 tracking-tight">Revenue Trend</h2>
-             <p className="text-sm font-medium text-slate-500">Last 6 months trailing volume</p>
-             <div className="flex-1 mt-4">
+          <div className="lg:col-span-3 bg-white p-8 rounded-[40px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)] flex flex-col min-h-[400px]">
+             <h2 className="text-2xl font-black text-[#111111] tracking-tighter mb-1">Revenue Trend</h2>
+             <p className="text-sm font-bold text-gray-400">Trailing volume analytics</p>
+             <div className="flex-1 mt-6">
                 <RevenueChart data={chartData} hasData={hasData} />
              </div>
           </div>
           
           <div className="lg:col-span-2 space-y-6">
              {/* ACTIVITY FEED */}
-             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <h2 className="text-lg font-bold text-slate-900 mb-4">Recent Activity</h2>
+             <div className="bg-white p-8 rounded-[40px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)]">
+                <h2 className="text-2xl font-black text-[#111111] tracking-tighter mb-6">Live Feed</h2>
                 {!hasData ? (
-                   <div className="text-center py-8">
-                      <p className="text-sm font-medium text-slate-500 mb-3">Your timeline is quiet right now.</p>
-                      <Link href="/dashboard/members" className="text-sm font-bold text-indigo-600 hover:text-indigo-500 pointer">
-                         Add your first member &rarr;
+                   <div className="text-center py-10 bg-[#FAFAFA] rounded-[24px]">
+                      <p className="text-sm font-bold text-gray-400 mb-4">Awaiting telemetry.</p>
+                      <Link href="/dashboard/members" className="text-sm font-black text-[#111111] border-b-2 border-[#ccff00] hover:text-[#ccff00] transition-colors">
+                         Add first member &rarr;
                       </Link>
                    </div>
                 ) : finalActivities.length > 0 ? (
                    <div className="space-y-4">
-                      {finalActivities.map((act, i) => (
-                         <div key={i} className="flex gap-3 items-center">
-                            <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center shrink-0 border border-slate-100 shadow-sm">
-                               {act.type === 'checkin' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>}
-                               {act.type === 'new_member' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>}
-                               {act.type === 'payment' && <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>}
+                       {finalActivities.map((act, i) => (
+                         <div key={i} className="flex gap-4 items-center p-3 rounded-2xl hover:bg-[#FAFAFA] transition-colors">
+                            <div className="w-10 h-10 rounded-full bg-[#FAFAFA] flex items-center justify-center shrink-0 border border-gray-100">
+                               {act.type === 'checkin' && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>}
+                               {act.type === 'new_member' && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ccff00" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>}
+                               {act.type === 'payment' && <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>}
                             </div>
                             <div className="min-w-0 flex-1">
-                              <p className="text-sm text-slate-800 font-semibold truncate leading-tight">{act.text}</p>
+                              <p className="text-[13px] text-[#111111] font-bold truncate leading-tight">{act.text}</p>
                             </div>
                          </div>
                       ))}
@@ -170,25 +172,25 @@ export default async function DashboardPage() {
              </div>
 
              {/* UPCOMING CLASSES */}
-             <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <h2 className="text-lg font-bold text-slate-900 mb-4">Upcoming Classes Today</h2>
+             <div className="bg-white p-8 rounded-[40px] border border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)]">
+                <h2 className="text-2xl font-black text-[#111111] tracking-tighter mb-6">Today's Sessions</h2>
                 {!hasData || todayClasses?.length === 0 ? (
-                   <div className="text-center py-6">
-                      <p className="text-sm font-medium text-slate-500 mb-3">No classes scheduled for today.</p>
-                      <Link href="/dashboard/schedule" className="text-sm font-bold text-indigo-600 hover:text-indigo-500">
-                         Create a class &rarr;
+                   <div className="text-center py-10 bg-[#FAFAFA] rounded-[24px]">
+                      <p className="text-sm font-bold text-gray-400 mb-4">No schedules.</p>
+                      <Link href="/dashboard/schedule" className="text-sm font-black text-[#111111] border-b-2 border-[#ccff00] hover:text-[#ccff00] transition-colors">
+                         Initialize schedule &rarr;
                       </Link>
                    </div>
                 ) : (
                    <div className="space-y-3">
                       {todayClasses?.map((cls, i) => (
-                         <div key={i} className="flex justify-between items-center p-3 rounded-xl border border-slate-100 bg-slate-50 shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)]">
+                         <div key={i} className="flex justify-between items-center p-4 rounded-2xl border border-gray-100 bg-[#FAFAFA]">
                             <div>
-                               <p className="font-bold text-sm text-slate-900 mb-0.5">{cls.name}</p>
-                               <p className="text-xs font-semibold text-slate-500">{new Date(cls.scheduled_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} • {cls.trainer_name}</p>
+                               <p className="font-black text-sm text-[#111111] mb-1">{cls.name}</p>
+                               <p className="text-xs font-bold text-gray-400">{new Date(cls.scheduled_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} • {cls.trainer_name}</p>
                             </div>
                             <div className="text-right">
-                               <span className="inline-block px-3 py-1 bg-green-100 text-green-700 text-xs font-black tracking-wide rounded-full">
+                               <span className="inline-block px-3 py-1 bg-[#111111] text-[#ccff00] text-[10px] font-black tracking-widest uppercase rounded-full shadow-sm">
                                   {cls.capacity} spots
                                </span>
                             </div>
@@ -205,26 +207,26 @@ export default async function DashboardPage() {
 
 function KPICard({ title, value, subtext, subtextIsPositive, isAlert = false, isEmpty = false }: any) {
   return (
-    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col h-full justify-between hover:shadow-md transition-shadow">
-      <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{title}</h3>
+    <div className={`bg-white p-8 rounded-[40px] border flex flex-col h-full justify-between transition-transform duration-300 hover:-translate-y-1 ${isAlert ? 'border-red-500 shadow-[0_10px_40px_rgba(239,68,68,0.1)]' : 'border-gray-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)]'}`}>
+      <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">{title}</h3>
       
-      <div className="mt-4 mb-3">
+      <div className="mt-6 mb-4">
         {isEmpty ? (
-          <p className="text-3xl font-black text-slate-200">-</p>
+          <p className="text-4xl font-black tracking-tighter text-gray-200">-</p>
         ) : (
-          <p className={`text-4xl font-black tracking-tight ${isAlert ? 'text-red-500' : 'text-slate-900'}`}>{value}</p>
+          <p className={`text-4xl font-black tracking-tighter ${isAlert ? 'text-red-500' : 'text-[#111111]'}`}>{value}</p>
         )}
       </div>
       
       {!isEmpty && subtext && (
-        <p className={`text-xs font-bold ${subtextIsPositive ? 'text-green-500' : isAlert ? 'text-red-500' : 'text-slate-400'}`}>
+        <p className={`text-xs font-bold leading-tight ${subtextIsPositive ? 'text-[#ccff00] bg-[#111111] px-2 py-1 rounded w-max' : isAlert ? 'text-red-500' : 'text-gray-400'}`}>
           {subtext}
         </p>
       )}
       
       {isEmpty && (
-        <Link href="/dashboard/members" className="text-[11px] font-bold text-slate-400 uppercase tracking-wide cursor-pointer hover:text-indigo-500 inline-block mt-1">
-          Configure Data &rarr;
+        <Link href="/dashboard/members" className="text-[10px] font-black text-[#111111] uppercase tracking-widest border-b border-[#111111] w-max hover:text-[#ccff00] hover:border-[#ccff00] transition-colors mt-2 pb-0.5">
+          Map Data
         </Link>
       )}
     </div>

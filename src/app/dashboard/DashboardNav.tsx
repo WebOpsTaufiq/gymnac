@@ -65,10 +65,9 @@ export default function DashboardNav({ user, profile, gym, isOwner, children }: 
   const NavItem = ({ name, href, icon: Icon, isAi = false }: any) => {
     const active = pathname === href;
     
-    // Spec: "AI Concierge — style this differently. Indigo background pill, white text, sparkle icon. Makes it feel premium."
     if (isAi) {
       return (
-        <Link href={href} className={`group flex items-center justify-between px-4 py-2.5 mt-4 text-sm font-semibold rounded-full text-white shadow-sm transition-all hover:shadow-md hover:-translate-y-0.5 ${active ? 'bg-indigo-700 ring-2 ring-indigo-300 ring-offset-1 ring-offset-white' : 'bg-gradient-to-r from-indigo-500 to-purple-600'}`}>
+        <Link href={href} className={`group flex items-center justify-between px-4 py-3 mt-4 text-sm font-bold rounded-2xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 ${active ? 'bg-[#111111] text-[#ccff00] ring-1 ring-[#ccff00]' : 'bg-[#ccff00] text-[#111111] border border-[#ccff00]/50'}`}>
            <div className="flex items-center gap-3">
              <Icon />
              {name}
@@ -77,53 +76,51 @@ export default function DashboardNav({ user, profile, gym, isOwner, children }: 
       );
     }
 
-    // Spec: "Active nav item: indigo background, white text, slightly rounded. Inactive: gray text, hover darkens slightly."
     return (
-      <Link href={href} className={`group flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-colors ${active ? 'bg-indigo-600 text-white font-medium shadow-sm' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100 font-medium'}`}>
-         <span className={`${active ? 'text-indigo-100' : 'text-slate-400 group-hover:text-slate-500'}`}><Icon /></span>
+      <Link href={href} className={`group flex items-center gap-3 px-4 py-3 text-sm rounded-2xl transition-all font-bold ${active ? 'bg-[#111111] text-white shadow-md' : 'text-gray-500 hover:text-[#111111] hover:bg-gray-50'}`}>
+         <span className={`${active ? 'text-[#ccff00]' : 'text-gray-400 group-hover:text-gray-600'}`}><Icon /></span>
          {name}
       </Link>
     );
   };
 
   return (
-    // Default light mode shell via bg-slate-50 (#f8fafc equivalent in tailwind)
-    <div className="flex h-screen overflow-hidden bg-slate-50 text-slate-900 font-sans selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="flex h-screen overflow-hidden bg-[#FAFAFA] text-[#111111] font-sans selection:bg-[#ccff00] selection:text-[#111111]">
       
       {/* Mobile Sidebar Overlay */}
       {mobileOpen && (
         <div 
-          className="fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-sm block md:hidden transition-opacity" 
+          className="fixed inset-0 z-40 bg-[#111111]/40 backdrop-blur-sm block md:hidden transition-opacity" 
           onClick={() => setMobileOpen(false)} 
         />
       )}
       
       {/* Sidebar - fixed left 240px */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-[240px] bg-white border-r border-slate-200 transform transition-transform duration-300 ease-in-out md:translate-x-0 flex flex-col ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`fixed inset-y-0 left-0 z-50 w-[260px] bg-white border-r border-gray-100 transform transition-transform duration-300 ease-in-out md:translate-x-0 flex flex-col ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         
         {/* Sidebar Logo Header */}
-        <div className="h-16 flex items-center px-6 border-b border-slate-100 shrink-0">
-           <span className="font-bold text-lg tracking-tight text-slate-900">GymNav</span>
+        <div className="h-20 flex items-center px-8 border-b border-gray-50 shrink-0">
+           <span className="font-black text-2xl tracking-tighter text-[#111111]">GymNav</span>
         </div>
 
         {/* Sidebar Navigation Container */}
-        <div className="flex-1 overflow-y-auto py-6 px-4 space-y-8 flex flex-col">
+        <div className="flex-1 overflow-y-auto py-8 px-5 space-y-10 flex flex-col">
            <div>
-             <h3 className="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">Main</h3>
-             <nav className="space-y-1">
+             <h3 className="px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Main</h3>
+             <nav className="space-y-1.5">
                {MAIN_LINKS.map(link => <NavItem key={link.href} {...link} />)}
              </nav>
            </div>
            
            <div>
-             <h3 className="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">Operations</h3>
-             <nav className="space-y-1">
+             <h3 className="px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Operations</h3>
+             <nav className="space-y-1.5">
                {OP_LINKS.map(link => <NavItem key={link.href} {...link} />)}
              </nav>
            </div>
 
-           <div className="mt-8 pt-4 border-t border-slate-100">
-             <h3 className="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">AI</h3>
+           <div className="mt-8 pt-6 border-t border-gray-50">
+             <h3 className="px-4 text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">AI</h3>
              <nav className="space-y-1">
                <NavItem name="AI Concierge" href="/dashboard/concierge" icon={SparkleIcon} isAi={true} />
              </nav>
@@ -131,14 +128,13 @@ export default function DashboardNav({ user, profile, gym, isOwner, children }: 
 
            {isOwner && (
              <div className="mt-auto pt-8">
-               <h3 className="px-3 text-[11px] font-bold text-indigo-400 uppercase tracking-wider mb-2">Platform Owner</h3>
+               <h3 className="px-4 text-[10px] font-black text-[#ccff00] uppercase tracking-widest mb-3">Platform Owner</h3>
                <nav>
-                 <Link href="/admin" className="group flex items-center justify-between px-4 py-3 bg-slate-900 border border-slate-800 rounded-2xl text-white shadow-lg hover:shadow-indigo-500/20 hover:-translate-y-0.5 transition-all">
+                 <Link href="/admin" className="group flex items-center justify-between px-5 py-4 bg-[#111111] rounded-[20px] text-white shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-800">
                     <div className="flex items-center gap-3">
-                      <CrownIcon />
+                      <div className="text-[#ccff00]"><CrownIcon /></div>
                       <span className="text-xs font-black uppercase tracking-wider">Super Admin</span>
                     </div>
-                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_#22c55e]"></div>
                  </Link>
                </nav>
              </div>
@@ -146,22 +142,22 @@ export default function DashboardNav({ user, profile, gym, isOwner, children }: 
         </div>
 
         {/* Sidebar Footer - Settings & User Context */}
-        <div className="shrink-0 p-4 border-t border-slate-200 bg-slate-50/50">
+        <div className="shrink-0 p-5 mt-auto">
            <div className="mb-4">
              <NavItem name="Settings" href="/dashboard/settings" icon={GearIcon} />
            </div>
            
-           <div className="pt-4 border-t border-slate-200 flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-white text-indigo-700 flex items-center justify-center font-bold uppercase text-sm border border-slate-300 shadow-sm shrink-0">
+           <div className="pt-4 border-t border-gray-100 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-[#ccff00] text-[#111111] flex items-center justify-center font-black uppercase tracking-wider text-sm shadow-sm shrink-0">
                 {profile?.full_name ? profile.full_name.charAt(0) : 'U'}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-slate-900 truncate leading-tight">{gym?.name || "Your Gym"}</p>
-                <p className="text-xs font-medium text-slate-500 capitalize">{profile?.role || "Owner"}</p>
+                <p className="text-sm font-bold text-[#111111] truncate leading-tight">{gym?.name || "Your Gym"}</p>
+                <p className="text-xs font-bold text-gray-400 capitalize">{profile?.role || "Owner"}</p>
               </div>
               <button 
                 onClick={handleLogout} 
-                className="p-1.5 text-slate-400 hover:text-slate-900 hover:bg-slate-200 rounded-md transition-colors" 
+                className="p-2 text-gray-400 hover:text-[#111111] hover:bg-gray-100 rounded-xl transition-colors" 
                 title="Log out"
               >
                  <LogOutIcon />
@@ -172,30 +168,30 @@ export default function DashboardNav({ user, profile, gym, isOwner, children }: 
       </aside>
 
       {/* Main Window Frame */}
-      <div className="flex-1 flex flex-col min-w-0 md:ml-[240px] transition-all duration-300">
+      <div className="flex-1 flex flex-col min-w-0 md:ml-[260px] transition-all duration-300">
         
         {/* Topbar sticky header */}
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-8 shrink-0 relative z-30 shadow-sm">
-          <div className="flex items-center gap-4">
-            <button className="md:hidden p-2 -ml-2 text-slate-500 hover:text-slate-900 rounded-md transition-colors cursor-pointer" onClick={() => setMobileOpen(true)}>
+        <header className="h-20 bg-[#FAFAFA]/80 backdrop-blur-md border-b border-gray-100/50 flex items-center justify-between px-6 sm:px-12 shrink-0 relative z-30 transition-all">
+          <div className="flex items-center gap-6">
+            <button className="md:hidden p-2 -ml-2 text-gray-500 hover:text-[#111111] rounded-xl transition-colors cursor-pointer" onClick={() => setMobileOpen(true)}>
                <MenuIcon />
             </button>
-            <h1 className="text-2xl font-bold text-slate-800 tracking-tight">{getPageTitle()}</h1>
+            <h1 className="text-3xl font-black text-[#111111] tracking-tighter">{getPageTitle()}</h1>
           </div>
           
-          <div className="flex items-center gap-4">
-             <button className="p-2 text-slate-400 hover:text-slate-900 rounded-full hover:bg-slate-50 transition-colors">
+          <div className="flex items-center gap-5">
+             <button className="p-2.5 text-gray-400 hover:text-[#111111] rounded-full hover:bg-gray-100 transition-colors">
                 <BellIcon />
              </button>
-             <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-bold border border-indigo-200 shadow-sm cursor-pointer hover:bg-indigo-200 transition-colors">
+             <div className="w-10 h-10 rounded-xl bg-[#111111] text-[#ccff00] flex items-center justify-center text-sm font-black shadow-lg shadow-black/10 cursor-pointer hover:scale-105 transition-transform">
                {profile?.full_name ? profile.full_name.charAt(0).toUpperCase() : 'U'}
              </div>
           </div>
         </header>
 
         {/* Dynamic Content Body */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-8">
-           <div className="max-w-6xl mx-auto">
+        <main className="flex-1 overflow-y-auto p-6 sm:p-12">
+           <div className="max-w-[1400px] mx-auto">
              {children}
            </div>
         </main>
